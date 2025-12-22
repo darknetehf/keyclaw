@@ -215,7 +215,7 @@ def main():
     # merge headers into one dict
     headers = {}
     for item in args.header:
-        logger.info(f"Add custom header: {item}")
+        logger.debug(f"Add custom header: {item}")
         headers.update(item)
 
     # convert realms to list
@@ -289,7 +289,7 @@ def main():
                     break
 
                 pbar.set_description(
-                    f"Trying [{counter}] {result.user}/{result.password} -> {result.response.status_code}"
+                    f"Trying [{counter}] {result.user}/{result.password} ({result.realm}) -> {result.response.status_code}"
                 )
                 pbar.update(1)
 
@@ -298,7 +298,7 @@ def main():
                         message = f"User: {result.user} - Password: {result.password} - Response: Status code: {result.response.status_code} - Output: {result.response.text}"
                         logger.debug(message)
                         tqdm.write(
-                            f"Valid credentials possibly found! User: {result.user} - Password: {result.password}"
+                            f"Valid credentials possibly found! User: {result.user} - Password: {result.password} - Realm: {result.realm}"
                         )
                         tqdm.write(
                             f"Response: Status code: {result.response.status_code} - Output: {result.response.json()}"
