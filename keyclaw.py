@@ -188,6 +188,13 @@ def create_parser():
         default=0,
         help="Resume from line number",
     )
+    parser.add_argument(
+        "--stop-on-success",
+        action="store_true",
+        dest="stop_on_success",
+        default=False,
+        help="Stop after one successful login",
+    )
     args = parser.parse_args()
     # print(args)
     # sys.exit()
@@ -291,16 +298,15 @@ def main():
 
                 match result.response.status_code:
                     case 200:
-                        message = f"User: {result.user} - Password: {result.password} - Response: Status code: {result.response.status_code} - Output: {result.response.text}"
-                        logger.debug(message)
                         tqdm.write(
-                            f"Valid credentials possibly found! User: {result.user} - Password: {result.password} - Realm: {result.realm}"
+                            f"Valid credentials possibly found! - User: {result.user} - Password: {result.password} - Realm: {result.realm}"
                         )
-                        tqdm.write(
-                            f"Response: Status code: {result.response.status_code} - Output: {result.response.json()}"
-                        )
-                        executor.shutdown(wait=False, cancel_futures=True)
-                        break
+                        if args.stop_on_success:
+                            message = "Stopping after one successful login"
+                            logger.info("Stopping after one successful login")
+                            tqdm.write(message)
+                            executor.shutdown(wait=False, cancel_futures=True)
+                            break
                     case 400:
                         # This is to handle not fully set up accounts eg:
                         # {"error":"invalid_grant","error_description":"Account is not fully set up"}
@@ -311,10 +317,7 @@ def main():
                         pass
                     case _:
                         tqdm.write(
-                            "Got unexpected status code, please investigate"
-                        )
-                        tqdm.write(
-                            f"Status code: {result.response.status_code} - Output: {result.response.text}"
+                            f"Unexpected response - User: {result.user} - Password: {result.password} - Realm: {result.realm} - Response: {result.response.json()}"
                         )
                         executor.shutdown(wait=False, cancel_futures=True)
                         break
