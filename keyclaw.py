@@ -293,6 +293,9 @@ def main():
                 )
                 pbar.update(1)
 
+                message = f"User: {result.user} - Password: {result.password} - Response: Status code: {result.response.status_code} - Output: {result.response.text}"
+                logger.debug(message)
+
                 match result.response.status_code:
                     case 200:
                         message = f"User: {result.user} - Password: {result.password} - Response: Status code: {result.response.status_code} - Output: {result.response.text}"
