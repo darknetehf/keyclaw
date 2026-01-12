@@ -188,13 +188,6 @@ def create_parser():
         default=0,
         help="Resume from line number",
     )
-    parser.add_argument(
-        "--dryrun",
-        action="store_true",
-        dest="dryrun",
-        default=False,
-        help="Dryrun mode",
-    )
     args = parser.parse_args()
     # print(args)
     # sys.exit()
