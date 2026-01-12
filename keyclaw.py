@@ -308,6 +308,12 @@ def main():
                         )
                         executor.shutdown(wait=False, cancel_futures=True)
                         break
+                    case 400:
+                        # This is to handle not fully set up accounts eg:
+                        # {"error":"invalid_grant","error_description":"Account is not fully set up"}
+                        tqdm.write(
+                            f"Unexpected response - User: {result.user} - Password: {result.password} - Realm: {result.realm} - Response: {result.response.json()}"
+                        )
                     case 401:
                         pass
                     case _:
