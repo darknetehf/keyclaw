@@ -41,9 +41,7 @@ At a minimum, KeyClaw needs a valid URL for a Keycloak API endpoint and:
 
 First of all, it is recommended to test before launching a scan.
 
-- Use the `--dryrun` flag to verify
-- By default, KeyClaw spoofs the **user agent** string. However, you can specify additional headers, for example a bug bounty header.
-- Currently, KeyClaw stops after one successful login -> TODO: add flag to continue testing remaining credentials
+- By default, KeyClaw spoofs the **user agent** string. However, you can specify additional **headers**, for example a bug bounty header.
 - KeyClaw runs only one thread by default. Use the `--threads` flag to set a different number of threads.
 - Rate limiting: to throttle requests, use the `--pause` flag to throttle requests, followed by a value in milliseconds.
 
@@ -59,6 +57,7 @@ List of flags
 - `--password-file`: File containing list of passwords. To be used along with `--user`
 - `--user-password-file`: File containing list of users AND passwords (typically colon-delimited) - may not be used with `--password-file`
 - `--delimiter`: Delimiter for `--user-password-file` (default: `:`)
+- `--stop-on-success`: stop after one successful login
 
 Examples
 ~~~~~~~~
