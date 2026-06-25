@@ -25,7 +25,6 @@ def get_session_for_thread():
         thread_local.session = requests.Session()
         logger.debug(f"Granting session: {id(thread_local.session)}")
     headers = {
-        # "X-BugBounty": "defendiceland.is - 7bfecb97-aaf1-4df8-bbbc-fa8c597ba3d0",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0"
     }
     # merge headers
@@ -59,6 +58,22 @@ def try_login(url, realm, user, password, headers=None, pause=0):
         session = get_session_for_thread()
         logger.debug(f"Using session ID: {id(session)} - password: {password}")
 
+        # simulate a fake response
+        # response = requests.Response()
+        # response.status_code = 401
+        # response.json =  {"error":"Realm does not exist"}
+        # if password == "ashley":
+        #     response.status_code = 200
+        #     response.json = {"message": "success"}
+        # if password == "happening":
+        #     response.status_code = 500
+        #     response.json = {"message": "server error"}
+        # if password == "passw0rd":
+        #     raise OSError("ouch")
+        # result = LoginResult(url=url, realm=realm, user=user, password=password, response=response)
+        # logger.debug(f"result: {result}")
+        # sleep(pause)
+        # return result
         response = session.post(
             url=f"{url}/realms/{realm}/protocol/openid-connect/token",
             headers=headers,
